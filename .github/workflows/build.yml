@@ -29,9 +29,6 @@ jobs:
           git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
           mkdir twrp && cd twrp
           repo init -u https://github.com/omnirom/android.git -b android-11
-          find .repo/ -name "*.xml" -type f -exec sed -i 's|git@github.com:|https://github.com/|g' {} +
-          find .repo/ -name "*.xml" -type f -exec sed -i 's|git://github.com/|https://github.com/|g' {} +
-          find .repo/ -name "*.xml" -type f -exec sed -i 's|ssh://git@github.com/|https://github.com/|g' {} +
           repo sync -j4 --no-clone-bundle --no-tags
 
       - name: Insert Device Tree

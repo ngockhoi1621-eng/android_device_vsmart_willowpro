@@ -13,6 +13,11 @@ jobs:
 
       - name: Set up Environment
         run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf $AGENT_TOOLSDIRECTORY
           sudo apt-get update
           sudo apt-get install -y git repo wget curl
 
@@ -24,12 +29,13 @@ jobs:
           export PATH=~/bin:$PATH
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git config --global url."https://github.com/".insteadOf "git://github.com/"
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
-          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
           mkdir twrp && cd twrp
-          repo init -u https://github.com/omnirom/android.git -b android-11
-          repo sync -j4 --no-clone-bundle --no-tags
+          repo init -u https://github.com/omnirom/android.git -b android-11 --depth=1
+          sed -i 's|git@github.com:|https://github.com/|g' .repo/manifest.xml || true
+          sed -i 's|git@github.com:|https://github.com/|g' .repo/manifests/*.xml || true
+          sed -i 's|git://github.com/|https://github.com/|g' .repo/manifest.xml || true
+          sed -i 's|git://github.com/|https://github.com/|g' .repo/manifests/*.xml || true
+          repo sync -j4 --no-clone-bundle --no-tags --current-branch --force-sync
 
       - name: Insert Device Tree
         run: |

@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Device Tree
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Environment
         run: |
@@ -40,7 +40,7 @@ jobs:
           mka recoveryimage
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: recovery-willowpro
           path: twrp/out/target/product/willowpro/recovery.img

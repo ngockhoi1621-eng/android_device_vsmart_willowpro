@@ -24,10 +24,10 @@ jobs:
           export PATH=~/bin:$PATH
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git config --global url."https://github.com/".insteadOf "git://github.com/"
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
           mkdir twrp && cd twrp
           repo init -u https://github.com/omnirom/android.git -b android-11
+          sed -i 's|git@github.com:|https://github.com/|g' .repo/manifests/*.xml
+          sed -i 's|git://github.com/|https://github.com/|g' .repo/manifests/*.xml
           repo sync -j4 --no-clone-bundle --no-tags
 
       - name: Insert Device Tree
